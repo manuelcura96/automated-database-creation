@@ -20,8 +20,8 @@ pipeline {
             steps {     
               script {
                 git branch: 'master',
-                credentialsId: '123',
-                url: 'ASD'
+                credentialsId: 'github-token',
+                url: 'https://github.com/manuelcura96/automated-database-creation.git'
               }
             }
         }
