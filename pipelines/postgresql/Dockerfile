@@ -1,6 +1,6 @@
 FROM postgres:latest
 
-COPY ../include/postgresql/create_developer.sql /scripts/
+COPY /include/create_developer.sql /scripts/
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
