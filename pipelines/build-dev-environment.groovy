@@ -53,11 +53,11 @@ pipeline {
 
                     if ("${params.ENVIRONMENT_NAME}" == 'mysql') {
                       sh """
-                      docker build -t $params.ENVIRONMENT_NAME:latest -f mysql/Dockerfile
+                      docker build -t $params.ENVIRONMENT_NAME:latest -f pipelines/mysql/Dockerfile .
                       """
                     } else {
                       sh """
-                      docker build -t $params.ENVIRONMENT_NAME:latest -f postgresql/Dockerfile
+                      docker build -t $params.ENVIRONMENT_NAME:latest -f pipelines/postgresql/Dockerfile .
                       """
                     }
 
@@ -88,5 +88,4 @@ pipeline {
             }
         }
     }
-
 }
