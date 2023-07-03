@@ -51,7 +51,7 @@ pipeline {
                     sed 's/<PASSWORD>/$params.DATABASE_PASSWORD/g' pipelines/include/create_developer.template > pipelines/include/create_developer.sql
                     """
 
-                    if ("${params.DATABASE_PORT}".equals("mysql")) {
+                    if ("${params.ENVIRONMENT_NAME}" == 'mysql') {
                       sh """
                       docker build pipelines/mysql/ -t $params.ENVIRONMENT_NAME:latest
                       """
