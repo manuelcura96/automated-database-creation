@@ -13,7 +13,7 @@ pipeline {
     }
 
     parameters {
-        choice(name: 'ENVIRONMENT_NAME', choices: ['mysql', 'postgresql'], description: 'Value must be mysql or postgresql') 
+        choice(name: 'ENVIRONMENT_NAME', choices: ['mysql', 'postgres'], description: 'Select the database of your choice: MySQL or PostgreSQL') 
         password defaultValue: '', description: 'Password to use for MySQL/PostgreSQL container - root user', name: 'DATABASE_PASSWORD'
         string description: 'Database port available options: [3306, 3307, 5432, 5433]', name: 'DATABASE_PORT', trim: true  
 
@@ -27,7 +27,7 @@ pipeline {
                     int[] availablePorts = [3306, 3307, 5432, 5433]
                     int port = "${params.DATABASE_PORT}".toInteger()
                     if (port == null || !availablePorts.contains(port)) {
-                        ex('Database port must be one of the following options: [3306, 3307, 5432, 5433]');
+                      ex('Database port must be one of the following options: [3306, 3307, 5432, 5433]');
                     }
                     echo "Parameters validation completed"
                 }
@@ -51,9 +51,15 @@ pipeline {
                     sed 's/<PASSWORD>/$params.DATABASE_PASSWORD/g' pipelines/include/create_developer.template > pipelines/include/create_developer.sql
                     """
 
-                    sh """
-                    docker build pipelines/ -t $params.ENVIRONMENT_NAME:latest
-                    """
+                    if ("${params.ENVIRONMENT_NAME}" == 'mysql') {
+                      sh """
+                      docker build pipelines/mysql/ -t $params.ENVIRONMENT_NAME:latest
+                      """
+                    } else {
+                      sh """
+                      docker build pipelines/postgresql/ -t $params.ENVIRONMENT_NAME:latest
+                      """
+                    }
 
                 }else{
                     echo "Skipping STEP1"
