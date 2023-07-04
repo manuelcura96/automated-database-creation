@@ -1,0 +1,11 @@
+CREATE DATABASE devapp;
+CREATE TABLE devapp.departments(dept INT NOT NULL, dept_name VARCHAR(250) NOT NULL, PRIMARY KEY(DEPT));
+INSERT INTO devapp.departments (dept, dept_name) VALUE (1111, "Marketing");
+INSERT INTO devapp.departments (dept, dept_name) VALUE (2222, "Operations");
+INSERT INTO devapp.departments (dept, dept_name) VALUE (3333, "Finance");
+INSERT INTO devapp.departments (dept, dept_name) VALUE (4444, "Sales");
+INSERT INTO devapp.departments (dept, dept_name) VALUE (5555, "Human Resource");
+INSERT INTO devapp.departments (dept, dept_name) VALUE (6666, "Purchase");
+CREATE USER 'developer'@'localhost' IDENTIFIED BY '<PASSWORD>';
+GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'developer'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
