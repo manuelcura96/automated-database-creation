@@ -1,6 +1,6 @@
 FROM mysql:latest
 
-COPY pipelines/include/create_developer.sql /scripts/
+COPY pipelines/include/mysql/create_developer.sql /scripts/
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 

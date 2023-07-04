@@ -1,0 +1,8 @@
+CREATE TABLE departments (dept INT NOT NULL, dept_name VARCHAR(250) NOT NULL, PRIMARY KEY(DEPT));
+INSERT INTO departments (dept, dept_name) VALUES (1111, "Marketing");
+INSERT INTO departments (dept, dept_name) VALUES (2222, "Operations");
+INSERT INTO departments (dept, dept_name) VALUES (3333, "Finance");
+INSERT INTO departments (dept, dept_name) VALUES (4444, "Sales");
+INSERT INTO departments (dept, dept_name) VALUES (5555, "Human Resource");
+INSERT INTO departments (dept, dept_name) VALUES (6666, "Purchase");
+CREATE USER developer WITH PASSWORD '<PASSWORD>';
