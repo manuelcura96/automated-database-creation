@@ -1,6 +1,6 @@
 FROM postgres:latest
 
-COPY pipelines/include/create_developer.template /scripts/
+COPY pipelines/include/create_developer.sql /scripts/
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
