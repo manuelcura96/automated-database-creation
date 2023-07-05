@@ -71,7 +71,6 @@ pipeline {
             steps {     
               script {
                 git branch: 'master',
-                credentialsId: 'github-token',
                 url: 'https://github.com/manuelcura96/automated-database-creation.git'
               }
             }
