@@ -84,7 +84,7 @@ Now lets create the pipeline to have your databases up and running.
 
 In the pipeline configuration page, please paste the contents of the groovy file **pipelines/build-dev-environment.groovy**.
 
-<img width="460" alt="Screenshot 2023-07-05 at 18 16 57" src="https://github.com/manuelcura96/automated-database-creation/assets/55201302/2e5d798e-d5fd-48ac-8de3-c2addbf242b5">
+<img width="460" alt="Screenshot 2023-07-05 at 19 29 36" src="https://github.com/manuelcura96/automated-database-creation/assets/55201302/0e85911a-28c6-413d-bd61-a5e6d93186d3">
 
 ### 6. Build the Jenkins Pipeline
 
