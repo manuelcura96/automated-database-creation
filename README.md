@@ -60,15 +60,15 @@ To start the account creation and configuration of Jenkins, you need one passwor
 
 Please look in the logs for the password as shown in the image below.
 
-<img width="460" alt="Screenshot 2023-07-05 at 18 13 57" src="https://github.com/manuelcura96/automated-database-creation/assets/55201302/47d650a5-09d4-40d8-a969-01cf5fe2d9f5">
+<img width="460" alt="Screenshot 2023-07-05 at 18 13 57" src="https://github.com/manuelcura96/automated-database-creation/assets/55201302/0abcefb8-1413-4147-bfda-4ab06906d1d0">
 
 Now you can paste it and start the configuration of Jenkins.
 
-<img width="460" alt="Screenshot 2023-07-05 at 18 14 25" src="https://github.com/manuelcura96/automated-database-creation/assets/55201302/43e2afe0-9fc1-457c-8b85-0a9d52b6c0f4">
+<img width="460" alt="Screenshot 2023-07-05 at 18 14 25" src="https://github.com/manuelcura96/automated-database-creation/assets/55201302/aa840047-c4fc-4d47-93fc-c6557220d98f">
 
 #### 3.2. Create your Jenkins user
 
-<img width="460" alt="Screenshot 2023-07-05 at 18 15 04" src="https://github.com/manuelcura96/automated-database-creation/assets/55201302/aa871feb-9b49-4646-9d42-7360883c31b6">
+<img width="460" alt="Screenshot 2023-07-05 at 18 15 04" src="https://github.com/manuelcura96/automated-database-creation/assets/55201302/508b7584-1b50-4744-9572-0de7bdf447fc">
 
 ### 4. Configure Jenkins
 
@@ -76,7 +76,7 @@ After the initial setup is done, you need to configure the label used by this pi
 
 Please configure the **docker-host** label, as shown in the image below.
 
-<img width="460" alt="Screenshot 2023-07-05 at 18 16 18" src="https://github.com/manuelcura96/automated-database-creation/assets/55201302/a0161053-b96f-4f9f-96a3-04e9cdf0182b">
+<img width="460" alt="Screenshot 2023-07-05 at 18 16 18" src="https://github.com/manuelcura96/automated-database-creation/assets/55201302/479dfb83-a978-44c4-b188-a699d701a189">
 
 ### 5. Create the Jenkins Pipeline
 
@@ -84,7 +84,7 @@ Now lets create the pipeline to have your databases up and running.
 
 In the pipeline configuration page, please paste the contents of the groovy file **pipelines/build-dev-environment.groovy**.
 
-<img width="500" alt="Screenshot 2023-07-05 at 19 29 36" src="https://github.com/manuelcura96/automated-database-creation/assets/55201302/11b57891-cdec-4886-a7ba-905771edf460">
+<img width="460" alt="Screenshot 2023-07-05 at 18 16 57" src="https://github.com/manuelcura96/automated-database-creation/assets/55201302/2e5d798e-d5fd-48ac-8de3-c2addbf242b5">
 
 ### 6. Build the Jenkins Pipeline
 
@@ -94,7 +94,7 @@ The build will fail the first time because required parameters are missing, clic
 
 Select the database that you want to use (MySQL/PostgreSQL), the user password and the port (list of ports available in the description).
 
-<img width="500" alt="Screenshot 2023-07-05 at 19 36 33" src="https://github.com/manuelcura96/automated-database-creation/assets/55201302/599e9db4-2e98-40c3-ae98-b671e9c1dbbf">
+<img width="460" alt="Screenshot 2023-07-05 at 19 36 33" src="https://github.com/manuelcura96/automated-database-creation/assets/55201302/6cefa96d-0b9e-455a-9f33-dc58236b466d">
 
 ## Aditional Configurations
 
@@ -113,11 +113,3 @@ The databases by default will have the contents of the SQL scripts.
 This project provides a basic guide for integrating Jenkins and Docker to automate database deployment. With Jenkins-Docker integration, developers can effectively build, test, and deploy applications in a consistent and scalable manner. Feel free to explore additional features and customization options based on your project requirements.
 
 For more information and advanced usage, refer to the official documentation of Jenkins and Docker.
-
-
-
-
-
-
-
-
