@@ -6,3 +6,4 @@ INSERT INTO departments (dept, dept_name) VALUES (4444, 'Sales');
 INSERT INTO departments (dept, dept_name) VALUES (5555, 'Human Resource');
 INSERT INTO departments (dept, dept_name) VALUES (6666, 'Purchase');
 CREATE USER developer WITH PASSWORD '<PASSWORD>';
+GRANT postgres TO developer;
