@@ -3,6 +3,40 @@ def ex(exceptionError) {
     error(exceptionError)
 }
 
+def createDatabaseContainer() {
+    def dateTime = (sh(script: "date +%Y%m%d%H%M%S", returnStdout: true).trim())
+    def containerName = "${params.ENVIRONMENT_NAME}_${dateTime}"
+    if ("${params.ENVIRONMENT_NAME}" == 'mysql') {
+      sh """
+      docker run -itd --name ${containerName} --rm -e MYSQL_ROOT_PASSWORD=$params.DATABASE_PASSWORD -p $params.DATABASE_PORT:3306 $params.ENVIRONMENT_NAME:latest
+      """
+    } else {
+      sh """
+      docker run -itd --name ${containerName} --rm -e POSTGRES_PASSWORD=$params.DATABASE_PASSWORD -e POSTGRES_DB=devapp -p $params.DATABASE_PORT:5432 -d $params.ENVIRONMENT_NAME:latest
+      """
+    }
+    echo "Docker container $params.ENVIRONMENT_NAME created"
+    return containerName
+}
+
+def populateDatabase(containerName) {
+    try {
+      if ("${params.ENVIRONMENT_NAME}" == 'mysql') {
+          sh """
+          docker exec ${containerName} /bin/bash -c 'mysql --user="root" --password="$params.DATABASE_PASSWORD" < /scripts/create_developer.sql'
+          """
+      } else {
+          sh """
+          docker exec ${containerName} /bin/bash -c 'PGPASSWORD="$params.DATABASE_PASSWORD" psql -U postgres -d devapp < /scripts/create_developer.sql'
+          """
+      } 
+    } catch (Exception ex) {
+        return false
+    }
+    echo "Database $params.ENVIRONMENT_NAME populated"
+    return true
+}
+
 pipeline {
     agent {
         label 'docker-host'
@@ -47,15 +81,20 @@ pipeline {
               script {
                 if (!params.SKIP_STEP_1){    
                     echo "Creating docker image with name $params.ENVIRONMENT_NAME using port: $params.DATABASE_PORT"
-                    sh """
-                    sed 's/<PASSWORD>/$params.DATABASE_PASSWORD/g' pipelines/include/create_developer.template > pipelines/include/create_developer.sql
-                    """
 
                     if ("${params.ENVIRONMENT_NAME}" == 'mysql') {
+                      sh """
+                      sed 's/<PASSWORD>/$params.DATABASE_PASSWORD/g' pipelines/include/mysql/create_developer.template > pipelines/include/mysql/create_developer.sql
+                      """
+
                       sh """
                       docker build -t $params.ENVIRONMENT_NAME:latest -f pipelines/mysql/Dockerfile .
                       """
                     } else {
+                      sh """
+                      sed 's/<PASSWORD>/$params.DATABASE_PASSWORD/g' pipelines/include/postgresql/create_developer.template > pipelines/include/postgresql/create_developer.sql
+                      """
+
                       sh """
                       docker build -t $params.ENVIRONMENT_NAME:latest -f pipelines/postgresql/Dockerfile .
                       """
@@ -70,20 +109,17 @@ pipeline {
         stage('Start new container using latest database image and create user') {
             steps {     
               script {
-                
-                def dateTime = (sh(script: "date +%Y%m%d%H%M%S", returnStdout: true).trim())
-                def containerName = "${params.ENVIRONMENT_NAME}_${dateTime}"
+        
+                def containerName = createDatabaseContainer()
 
-                sh """
-                docker run -itd --name ${containerName} --rm -e MYSQL_ROOT_PASSWORD=$params.DATABASE_PASSWORD -p $params.DATABASE_PORT:3306 $params.ENVIRONMENT_NAME:latest
-                """
-
-                sh """
-                docker exec ${containerName} /bin/bash -c 'mysql --user="root" --password="$params.DATABASE_PASSWORD" < /scripts/create_developer.sql'
-                """
-
-                echo "Docker container created: $containerName"
-
+                int count = 1
+                while(!populateDatabase(containerName) && count <= 5) {
+                  echo "Attempting to configure the database: attempt ($count/5)"
+                  echo "Sleeping for 5 seconds..."
+                  sleep(time:5, unit:"SECONDS")
+                  count++
+                }
+                echo "Docker container created and properly running with $params.ENVIRONMENT_NAME: $containerName"
               }
             }
         }
